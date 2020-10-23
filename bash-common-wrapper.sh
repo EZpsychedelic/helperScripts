@@ -25,7 +25,9 @@ make_newDir ()
 }
 ## If previous return code does not equal 0
 if [ $? -ne 0 ]; then
-do somthing else
+
+## do somthing else
+
 ## If no arguments are passed send an error message and exit
 parse_args ()
 {
