@@ -1,4 +1,4 @@
-This short bash script swaps the endianess of MAC addresses as they are commonly found in feature phones. Normally this process involves hand parsing these data values out of the hex dump and manually reversing them in some manner. I found it easiest to copy and paste them to a text file that I could run a script on to reorder and beautify.
+# Short bash script swaps the endianess of MAC addresses as they are commonly found in feature phones. Normally this process involves hand parsing these data values out of the hex dump and manually reversing them in some manner. I found it easiest to copy and paste them to a text file that I could run a script on to reorder and beautify.
 
 ```bash
 IFS='\n'
