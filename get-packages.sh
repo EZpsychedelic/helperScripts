@@ -1,62 +1,67 @@
 #!/bin/bash
-# TODO: Add base directory to functions (so we can cd into directories correctly
-# TODO: Add directories as variables (if this shit ends up working)
 
 UBUNTU_URL="http://ubuntu-master.mirror.tudos.de/ubuntu/pool/main/c/cross-toolchain-base/"
 CENTOS_URL="http://mirror.centos.org/centos/filelist.gz"
 
-# Directories
+# Directories to download binaries to
 PPC_BASE_DIR="ppc64-debs"
 POWERPC_BASE_DIR="powerpc-debs"
 CENTOS_BASE_DIR="rpms"
 
-# get powerpc
-#cat index.html | grep -o ">linux.*.powerpc.*.deb" | while read line; do  wget -c "$UBUNTU_URL${line:1}"; done
+# get powerpc static binaries from ubuntu mirror
 powerpc() {
+	if [[ ! -d $POWERPC_BASE_DIR ]]; then
+		mkdir -p $POWERPC_BASE_DIR
+	fi
+
+	cd $POWERPC_BASE_DIR
+	
 	if [[ ! -f filelist ]]; then
 		wget $UBUNTU_URL -O filelist
 	fi
-	mkdir -p powerpc-debs
-	cd powerpc-debs
+	
 	cat ../filelist | grep -o ">linux.*.powerpc.*.deb" | while read line; do
 		wget -c "$UBUNTU_URL${line:1}"
 	done
 }
 
-# get ppc
-# cat index.html | grep -o ">linux.*.ppc.*.deb" | while read line; do  wget -c "$UBUNTU_URL${line:1}"; done
+# get powerpc 64 bit binaries from ubuntu mirror
 ppc() {
-	if [[ ! -d ppc64-debs ]]: then
-		mkdir -p ppc64-debs
-		cd ppc64-debs
-	else
-		cd ppc64-debs
+	if [[ ! -d $PPC_BASE_DIR ]]; then
+		mkdir -p $PPC_BASE_DIR
 	fi
 
+	cd $PPC_BASE_DIR
+	
 	if [[ ! -f filelist ]]; then
 		wget $UBUNTU_URL -O filelist
 	fi
-	mkdir -p ppc64-debs
-	cd ppc64-debs
-	cat ../filelist | grep -o ">linux.*.ppc.*.deb" | while read line; do
+	
+	cat filelist | grep -o ">linux.*.ppc.*.deb" | while read line; do
 		wget -c "$UBUNTU_URL${line:1}"
 	done
 }
 
 # Get centos ppc files mirror files
-## NOTE: CentOS handles this better. They have a file list that doesn't need fancy footwork to parse.
+## NOTE: CentOS handles this better. They have a file list that doesn't need to parse an html page.
 ppc_centos() {
-	if [ ! -f filelist ]; then
-		wget $CENTOS_URL -O filelist
-		gzip -d filelist.gz
+	if [[ ! -d $CENTOS_BASE_DIR ]]; then
+		mkdir -p $CENTOS_BASE_DIR
 	fi
 
-	mkdir -p rpms
-	cd rpms
-	cat ../filelist | grep "\-static\-.*\.ppc" | while read rpm; do
+	cd $CENTOS_BASE_DIR
+	
+	if [[ ! -f filelist ]]; then
+		wget $CENTOS_URL -O filelist.gz
+		gzip -d filelist.gz
+	fi
+	
+	cat filelist | grep "\-static\-.*\.ppc" | while read rpm; do
 		wget -c "http://mirror.centos.org/centos/${rpm}"
 	done
 }
 
 # Call functions
+powerpc
 ppc
+ppc_centos
