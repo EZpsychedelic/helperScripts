@@ -5,6 +5,11 @@
 UBUNTU_URL="http://ubuntu-master.mirror.tudos.de/ubuntu/pool/main/c/cross-toolchain-base/"
 CENTOS_URL="http://mirror.centos.org/centos/filelist.gz"
 
+# Directories
+PPC_BASE_DIR="ppc64-debs"
+POWERPC_BASE_DIR="powerpc-debs"
+CENTOS_BASE_DIR="rpms"
+
 # get powerpc
 #cat index.html | grep -o ">linux.*.powerpc.*.deb" | while read line; do  wget -c "$UBUNTU_URL${line:1}"; done
 powerpc() {
