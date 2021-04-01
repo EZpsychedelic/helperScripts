@@ -1,4 +1,10 @@
 #!/bin/bash
+## user input for yes/no
+read -n1 -p "Are these correct? [Y,n] " ANS
+case $ANS in
+	y|Y) continue ;;
+	*) exit 0 ;;
+esac
 
 ## Error wrapper
 error ()
