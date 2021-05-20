@@ -1,4 +1,8 @@
 #!/bin/bash
+
+## favorite, simple PS1 variable
+PS1="\033[0;32m\u@\h [\033[01;37m\w\033[0;32m]\n \033[0;33m\$ \033[0;32m"
+
 ## user input for yes/no
 read -n1 -p "Are these correct? [Y,n] " ANS
 case $ANS in
